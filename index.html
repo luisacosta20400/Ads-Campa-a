@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroCode Systems | Ingeniería Web de Alta Disponibilidad</title>
+    <!-- Google Fonts & Material Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- NEO-MINT & CYAN PREMIUM THEME --- */
+        :root {
+            --bg-dark: #0b0d13;
+            --bg-card: #121620;
+            --bg-card-hover: #181e2b;
+            --primary: #00f5a0; /* Verde Esmeralda Eléctrico */
+            --secondary: #00d2ff; /* Azul Cian Líquido */
+            --text-main: #f4f6fa;
+            --text-muted: #8a94a6;
+            --accent: #00f5a0;
+            --border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            background: rgba(11, 13, 19, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 90px;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            white-space: nowrap;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--primary); }
+
+        .btn-contact {
+            background: linear-gradient(135deg, #00c37f, #00a36c);
+            color: #0b0d13;
+            padding: 0.75rem 1.6rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0, 245, 160, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-contact:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 245, 160, 0.4);
+        }
+
+        /* --- HERO SECTION --- */
+        #hero {
+            min-height: 95vh;
+            display: flex;
+            align-items: center;
+            padding-top: 110px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .hero-content p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tag {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .tag span { color: var(--primary); font-size: 1rem; }
+
+        .cube-3d {
+            width: 320px;
+            height: 320px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            box-shadow: 0 0 60px rgba(0, 245, 160, 0.15);
+            animation: morphing 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes morphing {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: rotate(0deg); }
+            100% { border-radius: 40% 60% 70% 30% / 40% 60% 30% 70%; transform: rotate(180deg); }
+        }
+
+        /* --- MARQUEE --- */
+        .marquee {
+            background: rgba(255, 255, 255, 0.01);
+            padding: 2rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marqueeTrack 30s linear infinite;
+        }
+
+        .marquee-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-right: 4.5rem;
+        }
+
+        .marquee-item span { color: var(--primary); }
+
+        @keyframes marqueeTrack {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        /* --- RENDIMIENTO TÉCNICO --- */
+        #performance-metrics {
+            padding: 8rem 0;
+            background: rgba(255,255,255,0.01);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .score-box {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .score-circle {
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+        }
+
+        .score-num { font-size: 2.2rem; font-weight: 800; color: var(--primary); }
+        .score-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+
+        /* --- PROCESO --- */
+        #process { padding: 8rem 0; }
+        
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .process-card {
+            background: var(--bg-card);
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .process-card:hover { background: var(--bg-card-hover); }
+
+        .process-step {
+            position: absolute;
+            top: -20px;
+            right: 20px;
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.02);
+        }
+
+        .process-card h3 { margin: 1rem 0 0.5rem 0; font-size: 1.25rem; }
+        .process-card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+
+        /* --- PRECIOS --- */
+        #pricing { padding: 8rem 0; background: rgba(255,255,255,0.01); }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .price-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3.5rem 2.5rem;
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-card.featured {
+            border-color: var(--primary);
+            position: relative;
+        }
+
+        .price-card.featured::before {
+            content: 'RECOMENDADO';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: #0b0d13;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            letter-spacing: 1px;
+        }
+
+        .price-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary);
+        }
+
+        .price-header h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+        .price-header .cost { font-size: 2.8rem; font-weight: 800; margin: 1.5rem 0; }
+        .price-header .cost span { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
+        
+        .price-features {
+            list-style: none;
+            margin: 2rem 0;
+            flex: 1;
+        }
+
+        .price-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .price-features li span { color: var(--primary); font-size: 1.2rem; }
+
+        .btn-price {
+            display: block;
+            text-align: center;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 0.9rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: background 0.3s;
+        }
+
+        .price-card.featured .btn-price {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #0b0d13;
+            border: none;
+        }
+
+        /* --- ACORDEÓN FAQs --- */
+        #faqs { padding: 8rem 0; }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 4rem auto 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-trigger {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 1.5rem 2rem;
+            text-align: left;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-trigger span {
+            transition: transform 0.3s;
+            color: var(--primary);
+        }
+
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 2rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .faq-item.active .faq-content {
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-item.active .faq-trigger span {
+            transform: rotate(180deg);
+        }
+
+        /* --- CONTACTO --- */
+        #contact {
+            padding: 8rem 0;
+            background: radial-gradient(circle at 80% 20%, rgba(0, 245, 160, 0.03), transparent 50%);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .info-panel h2 { font-size: 3.2rem; font-weight: 800; margin-bottom: 1.5rem; }
+        .info-panel p { color: var(--text-muted); margin-bottom: 3.5rem; font-size: 1.15rem; line-height: 1.6; }
+
+        .contact-item { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2.2rem; }
+        
+        .contact-icon {
+            width: 54px;
+            height: 54px;
+            background: rgba(0, 245, 160, 0.06);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-details h4 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.2rem; }
+        .contact-details p { font-size: 1.15rem; color: var(--text-main); font-weight: 600; }
+
+        .contact-form {
+            background: var(--bg-card);
+            padding: 3.5rem;
+            border-radius: 28px;
+            border: 1px solid var(--border);
+        }
+
+        .form-group { margin-bottom: 1.8rem; }
+        .form-group label { display: block; margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.9rem; font-weight: 600; }
+        
+        .form-control {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.1rem;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-control:focus { outline: none; border-color: var(--primary); }
+
+        button[type="submit"] {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #0b0d13;
+            border: none;
+            padding: 1.1rem;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        button[type="submit"]:hover { transform: translateY(-2px); }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-links { display: flex; gap: 2rem; list-style: none; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; }
+        .footer-links a:hover { color: white; }
+
+        /* --- INTERFAZ FLOTANTE --- */
+        .floating-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 9999;
+        }
+
+        .float-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            cursor: pointer;
+            transition: transform 0.3s, scale 0.3s;
+            text-decoration: none;
+            border: none;
+        }
+
+        .float-btn:hover { transform: scale(1.08) translateY(-2px); }
+        .btn-whatsapp { background-color: #25d366; color: white; }
+        .btn-ai { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #0b0d13; }
+
+        /* AI Chat Window */
+        .ai-chat-window {
+            position: fixed;
+            bottom: 110px;
+            right: 30px;
+            width: 360px;
+            height: 480px;
+            background: #121620;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 9999;
+        }
+
+        .ai-chat-header {
+            background: linear-gradient(135deg, #00a36c, #0b0d13);
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .ai-messages { flex: 1; padding: 1.2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; }
+        
+        .msg { padding: 0.85rem 1.1rem; border-radius: 16px; max-width: 82%; font-size: 0.92rem; line-height: 1.45; }
+        .msg.bot { background: rgba(255,255,255,0.03); color: var(--text-main); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .msg.user { background: #00a36c; color: #0b0d13; font-weight: 600; align-self: flex-end; border-bottom-right-radius: 4px; }
+
+        .ai-input-area { padding: 1.2rem; border-top: 1px solid var(--border); display: flex; gap: 0.6rem; background: #161b27; }
+        .ai-input-area input { flex: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 0.75rem 1.1rem; border-radius: 12px; color: white; }
+        .ai-input-area button { background: var(--primary); border: none; width: 44px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 968px) {
+            nav { height: auto; padding: 1.5rem 0; flex-direction: column; gap: 1.2rem; }
+            .nav-links { gap: 1.5rem; }
+            #hero { padding-top: 220px; }
+            .hero-grid, .metrics-grid, .process-grid, .pricing-grid, .contact-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-visual { order: -1; }
+            .score-box { flex-wrap: wrap; }
+            .contact-item { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <span class="material-symbols-rounded" style="color: var(--primary)">grid_view</span>
+                    AeroCode<span style="color: var(--secondary)">Systems</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#hero">Inicio</a></li>
+                    <li><a href="#process">Proceso</a></li>
+                    <li><a href="#pricing">Planes</a></li>
+                    <li><a href="#faqs">Preguntas</a></li>
+                    <li><a href="#contact">Contacto</a></li>
+                </ul>
+                <div>
+                    <a href="#contact" class="btn-contact">Auditoría de Sistemas</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <div class="hero-tags">
+                    <div class="tag"><span class="material-symbols-rounded">shield</span> Arquitectura de Grado Militar</div>
+                    <div class="tag"><span class="material-symbols-rounded">flash_on</span> TTFB Ultra Bajo</div>
+                </div>
+                <h1>Ingeniería Web y Código de <span class="gradient-text">Alta Conversión</span></h1>
+                <p>No programamos páginas simples. Diseñamos ecosistemas digitales veloces, optimizados a nivel estructural para reducir tus costos por clic en Google Ads y garantizar escalabilidad real sin cuellos de botella.</p>
+                <a href="#contact" class="btn-contact" style="padding: 1.1rem 2.8rem; font-size: 1.05rem;">Iniciar Despliegue</a>
+            </div>
+            <div class="hero-visual">
+                <div class="cube-3d"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARQUEE TECNOLÓGICO -->
+    <div class="marquee">
+        <div class="marquee-content">
+            <div class="marquee-item"><span class="material-symbols-rounded">memory</span> HTTP/3 Fast Protocol</div>
+            <div class="marquee-item"><span class="material-symbols-rounded">monitoring</span> Core Web Vitals Pass</div>
+            <div class="marquee-item"><span class="material-symbols-rounded">database</span> CDN Dynamic Cache</div>
+            <div class="marquee-item"><span class="material-symbols-rounded">security_update_good</span> SSL Encryption Active</div>
+            <div class="marquee-item"><span class="material-symbols-rounded">conversion_path</span> Optimized UI/UX Layer</div>
+            <!-- Duplicados -->
+            <div class="marquee-item"><span class="material-symbols-rounded">memory</span> HTTP/3 Fast Protocol</div>
+            <div class="marquee-item"><span class="material-symbols-rounded">monitoring</span> Core Web Vitals Pass</div>
+            <div class="marquee-item"><span class="material-symbols-rounded">database</span> CDN Dynamic Cache</div>
+            <div class="marquee-item"><span class="material-symbols-rounded">security_update_good</span> SSL Encryption Active</div>
+            <div class="marquee-item"><span class="material-symbols-rounded">conversion_path</span> Optimized UI/UX Layer</div>
+        </div>
+    </div>
+
+    <!-- RENDIMIENTO COMPROBADO -->
+    <section id="performance-metrics">
+        <div class="container metrics-grid">
+            <div>
+                <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;">Estructuras validadas bajo métricas estrictas</h2>
+                <p style="color: var(--text-muted); line-height: 1.6;">Cualquier analista técnico sabe que un código descuidado destruye los embudos de ventas. Nuestras plataformas están construidas con semántica pura para asegurar tiempos de respuesta mínimos e inmunidad frente a auditorías de velocidad.</p>
+            </div>
+            <div class="score-box">
+                <div class="score-circle">
+                    <span class="score-num">99%</span>
+                    <span class="score-label">Speed Score</span>
+                </div>
+                <div class="score-circle">
+                    <span class="score-num">0ms</span>
+                    <span class="score-label">Layout Shift</span>
+                </div>
+                <div class="score-circle">
+                    <span class="score-num">2026</span>
+                    <span class="score-label">Tech Stack</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESO DE TRABAJO -->
+    <section id="process">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 4rem;">
+                <h2 style="font-size: 2.5rem; font-weight: 800;">Protocolo de Desarrollo</h2>
+                <p style="color: var(--text-muted);">Metodología ágil y transparente desde el alcance inicial hasta el paso a producción.</p>
+            </div>
+            <div class="process-grid">
+                <div class="process-card">
+                    <div class="process-step">01</div>
+                    <span class="material-symbols-rounded" style="color: var(--primary)">analytics</span>
+                    <h3>1. Auditoría Comercial</h3>
+                    <p>Evaluamos los puntos de conversión clave y la conducta de tu audiencia antes del desarrollo.</p>
+                </div>
+                <div class="process-card">
+                    <div class="process-step">02</div>
+                    <span class="material-symbols-rounded" style="color: var(--secondary)">layers</span>
+                    <h3>2. Estructuración UI</h3>
+                    <p>Diseñamos maquetas de alta fidelidad priorizando el escaneo visual rápido del usuario.</p>
+                </div>
+                <div class="process-card">
+                    <div class="process-step">03</div>
+                    <span class="material-symbols-rounded" style="color: var(--primary)">integration_instructions</span>
+                    <h3>3. Programación Limpia</h3>
+                    <p>Escribimos el core del software sin librerías pesadas que alteren los tiempos de carga.</p>
+                </div>
+                <div class="process-card">
+                    <div class="process-step">04</div>
+                    <span class="material-symbols-rounded" style="color: var(--secondary)">cloud_done</span>
+                    <h3>4. Provisionamiento</h3>
+                    <p>Hacemos el despliegue en infraestructura segura con protección integral contra caídas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLANES DE PRECIOS -->
+    <section id="pricing">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 2.5rem; font-weight: 800;">Modelos de Inversión Tecnológica</h2>
+                <p style="color: var(--text-muted);">Precios claros basados en los requerimientos de tu infraestructura.</p>
+            </div>
+            <div class="pricing-grid">
+                <!-- Plan 1 -->
+                <div class="price-card">
+                    <div class="price-header">
+                        <h3>Conversion Landing</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Para campañas publicitarias.</p>
+                        <div class="cost">$299 <span>/ Pago Único</span></div>
+                    </div>
+                    <ul class="price-features">
+                        <li><span class="material-symbols-rounded">done</span> 1 Arquitectura Monopágina Premium</li>
+                        <li><span class="material-symbols-rounded">done</span> Código Optimizado para Google Ads</li>
+                        <li><span class="material-symbols-rounded">done</span> Integración Directa a Canales API</li>
+                        <li><span class="material-symbols-rounded">done</span> Despliegue en Servidor Cloud</li>
+                    </ul>
+                    <a href="#contact" class="btn-price">Seleccionar Módulo</a>
+                </div>
+                <!-- Plan 2 -->
+                <div class="price-card featured">
+                    <div class="price-header">
+                        <h3>Corporate Core</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Para empresas consolidadas.</p>
+                        <div class="cost">$599 <span>/ Pago Único</span></div>
+                    </div>
+                    <ul class="price-features">
+                        <li><span class="material-symbols-rounded">done</span> Ecosistema Multipágina Dinámico</li>
+                        <li><span class="material-symbols-rounded">done</span> Sistema de Administración Integrado</li>
+                        <li><span class="material-symbols-rounded">done</span> Ingeniería SEO On-Page</li>
+                        <li><span class="material-symbols-rounded">done</span> Asistente Autónomo IA Básico</li>
+                    </ul>
+                    <a href="#contact" class="btn-price">Seleccionar Módulo</a>
+                </div>
+                <!-- Plan 3 -->
+                <div class="price-card">
+                    <div class="price-header">
+                        <h3>Custom Software</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Sistemas de software dedicados.</p>
+                        <div class="cost">Cotizar <span>/ Sistema</span></div>
+                    </div>
+                    <ul class="price-features">
+                        <li><span class="material-symbols-rounded">done</span> Infraestructura Backend Dedicada</li>
+                        <li><span class="material-symbols-rounded">done</span> Modelos IA Personalizados</li>
+                        <li><span class="material-symbols-rounded">done</span> Soporte con SLA de Ingeniería</li>
+                        <li><span class="material-symbols-rounded">done</span> Escalamiento Horizontal Cloud</li>
+                    </ul>
+                    <a href="#contact" class="btn-price">Consultar Arquitecto</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREGUNTAS FRECUENTES -->
+    <section id="faqs">
+        <div class="container">
+            <div style="text-align: center;">
+                <h2 style="font-size: 2.5rem; font-weight: 800;">Consultas de Infraestructura</h2>
+                <p style="color: var(--text-muted);">Respuestas técnicas directas sin rodeos comerciales.</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-trigger" onclick="toggleFaq(this)">
+                        ¿Los sitios son aptos para correr campañas en Google Ads?
+                        <span class="material-symbols-rounded">expand_more</span>
+                    </button>
+                    <div class="faq-content">
+                        <p>Totalmente. Desarrollamos la estructura bajo estrictas normativas de políticas de destino. Esto significa código limpio sin redirecciones sospechosas, velocidad de carga óptima para reducir costos por clic y textos semánticos claros para la indexación del bot auditor.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-trigger" onclick="toggleFaq(this)">
+                        ¿Soy dueño del código una vez finalizado el proyecto?
+                        <span class="material-symbols-rounded">expand_more</span>
+                    </button>
+                    <div class="faq-content">
+                        <p>Sí, al 100%. Una vez liquidado el proyecto se realiza la entrega formal de repositorios o accesos al servidor. No manejamos contratos forzosos ni mensualidades ocultas de propiedad intelectual.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-trigger" onclick="toggleFaq(this)">
+                        ¿Cómo se gestiona el soporte y mantenimiento técnico?
+                        <span class="material-symbols-rounded">expand_more</span>
+                    </button>
+                    <div class="faq-content">
+                        <p>Todos nuestros desarrollos incluyen una garantía de estabilidad de fábrica ante fallos de servidor de origen. Opcionalmente, ofrecemos pólizas de soporte mensual para actualizaciones avanzadas o adición de nuevo contenido dinámico.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PASARELA DE CONTACTO -->
+    <section id="contact">
+        <div class="container contact-grid">
+            <div class="info-panel">
+                <h2>¿Iniciamos la ingeniería de tu sitio?</h2>
+                <p>Completa el formulario de requerimientos básicos para recibir un análisis inicial de código sin costo por parte de nuestro equipo de desarrollo.</p>
+                
+                <div class="contact-item">
+                    <div class="contact-icon"><span class="material-symbols-rounded">terminal</span></div>
+                    <div class="contact-details"><h4>Línea de Enlace</h4><p>+57 321 248 55699</p></div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon"><span class="material-symbols-rounded">dns</span></div>
+                    <div class="contact-details"><h4>Mesa de Entrada</h4><p>ops@aerocodesystems.com</p></div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon"><span class="material-symbols-rounded">lan</span></div>
+                    <div class="contact-details"><h4>Sede Física</h4><p>Av. Tecnológica Corp #51</p></div>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form id="mainContactForm" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Razón Social o Entidad</label>
+                        <input type="text" id="name" class="form-control" placeholder="Ej. AeroCorp S.A." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Dirección de Correo Oficial</label>
+                        <input type="email" id="email" class="form-control" placeholder="arquitectura@empresa.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="msgContent">Breve Descripción de Módulos Requeridos</label>
+                        <textarea id="msgContent" class="form-control" rows="4" placeholder="Especifica si necesitas integraciones de APIs, pasarelas o formularios..." required></textarea>
+                    </div>
+                    <button type="submit">Enviar Solicitud de Ingeniería</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER CORPORATIVO -->
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <p>&copy; 2026 AeroCode Systems. Todos los derechos reservados. Desarrollos bajo normativas globales de alto rendimiento web.</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#faqs">Políticas de Redirección</a></li>
+                <li><a href="#pricing">Términos de Infraestructura</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVIDAD MULTI-WIDGET -->
+    <div class="floating-container">
+        <button class="float-btn btn-ai" onclick="toggleChat()">
+            <span class="material-symbols-rounded">terminal</span>
+        </button>
+        <a href="https://wa.me/5732124855699?text=Hola%20AeroCode%20Systems,%20requiero%20una%20auditoria%20para%20un%20desarrollo%20web" class="float-btn btn-whatsapp" target="_blank">
+            <svg style="width:28px; height:28px; fill:currentColor" viewBox="0 0 24 24">
+                <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.371a9.936 9.936 0 0 0 4.777 1.212h.005c5.505 0 9.99-4.477 9.99-9.983C22.008 6.478 17.519 2 12.012 2zm4.957 14.22c-.274.774-1.336 1.4-1.848 1.482-.469.075-.167.312-2.737-.715-2.007-.803-3.26-2.845-3.36-2.981-.1-.135-.815-.98-.815-1.869 0-.888.463-1.324.628-1.488.164-.164.365-.205.487-.205.122 0 .244 0 .345.005.107.005.25.04.39.378.143.344.487 1.189.53 1.27.043.083.072.18.016.294-.055.114-.082.186-.164.282-.082.096-.174.215-.248.293-.083.087-.169.182-.073.348.096.164.425.7.91 1.132.625.556 1.15.729 1.315.813.165.083.261.069.32-.002.06-.07.25-.293.317-.393.067-.101.135-.084.227-.051.093.033.587.277.688.328.101.05.168.075.193.117.025.043.025.247-.249.773z"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- VENTANA DEL ASISTENTE IA -->
+    <div class="ai-chat-window" id="aiChatWindow">
+        <div class="ai-chat-header">
+            <span class="material-symbols-rounded" style="color: var(--primary)">developer_mode</span>
+            <div>
+                <h4 style="margin: 0; color: white; font-size: 0.95rem;">Mesa Autónoma AeroCode</h4>
+                <span style="font-size: 0.75rem; color: var(--primary);">● SysOps Online</span>
+            </div>
+        </div>
+        <div class="ai-messages" id="aiMessages">
+            <div class="msg bot">Terminal de control AeroCode iniciada. Consulta activa. ¿Qué tipo de arquitectura o requerimiento técnico deseas evaluar para tu plataforma?</div>
+        </div>
+        <div class="ai-input-area">
+            <input type="text" id="aiInput" placeholder="Escribe tu consulta de software..." onkeypress="handleChatKey(event)">
+            <button onclick="sendAiMessage()">
+                <span class="material-symbols-rounded" style="font-size: 1.2rem; color: #0b0d13;">send</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- CONTROLADORES SCRIPTS -->
+    <script>
+        // Manejador del Acordeón FAQs
+        function toggleFaq(trigger) {
+            const item = trigger.parentElement;
+            const content = item.querySelector('.faq-content');
+            const isActive = item.classList.contains('active');
+            
+            document.querySelectorAll('.faq-item').forEach(i => {
+                i.classList.remove('active');
+                i.querySelector('.faq-content').style.maxHeight = null;
+            });
+
+            if (!isActive) {
+                item.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        }
+
+        // Ventana de Chat IA interactiva
+        function toggleChat() {
+            const chatWin = document.getElementById('aiChatWindow');
+            chatWin.style.display = chatWin.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Detectar Enter en Chat
+        function handleChatKey(e) {
+            if (e.key === 'Enter') sendAiMessage();
+        }
+
+        // Simulación de Respuestas IA
+        function sendAiMessage() {
+            const input = document.getElementById('aiInput');
+            const messagesContainer = document.getElementById('aiMessages');
+            const userText = input.value.trim();
+
+            if (userText === "") return;
+
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = 'msg user';
+            userMsgDiv.textContent = userText;
+            messagesContainer.appendChild(userMsgDiv);
+            input.value = "";
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            setTimeout(() => {
+                const botMsgDiv = document.createElement('div');
+                botMsgDiv.className = 'msg bot';
+                botMsgDiv.textContent = "Consulta interpretada por el sistema. Procesamos estructuras modulares y limpias bajo protocolos de alto tráfico. Para cotizaciones exactas o integraciones personalizadas de APIs, te sugiero unirte a nuestro canal directo de WhatsApp para asistencia en tiempo real.";
+                messagesContainer.appendChild(botMsgDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 800);
+        }
+
+        // Formulario de envío simulado
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            alert('Datos registrados en el servidor de AeroCode Systems. Un ingeniero de guardia se pondrá en contacto para tu evaluación.');
+            document.getElementById('mainContactForm').reset();
+        }
+    </script>
+</body>
+</html>
